@@ -1,0 +1,13 @@
+googlemaps
+requests
+jedi
+autopep8
+isort
+black
+marshmallow
+Routes
+fastapi
+uvicorn
+scikit-learn
+cachetools
+gunicorn
