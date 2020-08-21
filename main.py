@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+from typing import List
 from core.models import Suggestion
 from core.google_api import get_places, get_place_details
 from sklearn.cluster import KMeans
@@ -52,3 +53,21 @@ def suggest_tours(suggest: Suggestion):
     ]
 
     return result
+
+
+@app.get("/tours/pois")
+def get_pois(latitude, longitude, categories: List[str] = Query(None)):
+    return list(
+        map(
+            lambda item: {
+                "latitude": item["geometry"]["location"]["lat"],
+                "longitude": item["geometry"]["location"]["lng"],
+            },
+            itertools.chain(
+                *[
+                    get_places(latitude, longitude, category)
+                    for category in categories
+                ]
+            ),
+        )
+    )
