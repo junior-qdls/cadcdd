@@ -3,11 +3,11 @@ from cachetools import cached
 
 
 @cached(cache={})
-def get_places(location, preference, radius=3000):
+def get_places(latitude, longitude, preference, radius=3000):
     return googlemaps.Client(
         key="AIzaSyAZy_JFLtPlqp7P1jEKbtzvXwMOx_fQK9s"
     ).places_nearby(
-        location=f"{location.latitud},{location.longitud}",
+        location=f"{latitude},{longitude}",
         radius=radius,
         language="es",
         type=preference,

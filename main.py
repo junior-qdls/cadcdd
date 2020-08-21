@@ -10,6 +10,8 @@ app = FastAPI()
 
 @app.post("/tours/suggest")
 def suggest_tours(suggest: Suggestion):
+    longitude = suggest.location.longitude
+    latitude = suggest.location.latitude
     result = list(
         map(
             lambda item: {
@@ -19,7 +21,7 @@ def suggest_tours(suggest: Suggestion):
             },
             itertools.chain(
                 *[
-                    get_places(suggest.location, category)
+                    get_places(latitude, longitude, category)
                     for category in suggest.categories
                 ]
             ),

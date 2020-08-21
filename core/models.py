@@ -3,8 +3,8 @@ from pydantic import BaseModel
 
 
 class Location(BaseModel):
-    latitud: str
-    longitud: str
+    latitude: str
+    longitude: str
 
 
 class Suggestion(BaseModel):
