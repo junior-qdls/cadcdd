@@ -1,9 +1,8 @@
 from fastapi import FastAPI, Query
 from typing import List
 from core.models import Suggestion
-from core.service import get_tours
+from core.service import get_tours, test
 from core.google_api import get_places
-from fastapi.responses import FileResponse
 import itertools
 
 app = FastAPI()
@@ -32,6 +31,6 @@ def get_pois(latitude, longitude, categories: List[str] = Query(None)):
     )
 
 
-@app.get("/tours/images/{img_reference}")
-def get_image(img_reference):
-    return FileResponse(f"/tmp/{img_reference}")
+@app.get("/test")
+def images():
+    return test()
