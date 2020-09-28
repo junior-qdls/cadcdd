@@ -51,6 +51,7 @@ def get_place_details(place_id):
     }
 
 
+@cached(cache={})
 def get_route(origin, destination):
     route = googlemaps.Client(key=google_api_key).directions(
         origin=origin, destination=destination, mode="walking", units="metric"

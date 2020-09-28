@@ -4,7 +4,7 @@ import datetime as dt
 import re
 import copy
 import math
-
+from cachetools import cached
 
 # flake8: noqa E203
 def apply_ga(
@@ -34,27 +34,6 @@ def apply_ga(
             matrix[j][i] = routes[index]
             index += 1
 
-    print("travel_date")
-    print(travel_date)
-    print("--")
-    print("travel_schedule")
-    print(travel_schedule)
-    print("--")
-    print("lunch_time")
-    print(lunch_time)
-    print("--")
-    print("total_generations")
-    print(len(pois) * 100)
-    print("--")
-    print("population_size")
-    print(pow(len(pois), 2))
-    print("--")
-    print("mutation_probability")
-    print(mutation_probability)
-    print("--")
-    print("crossover_probability")
-    print(crossover_probability)
-    print("--")
     ga = GeneticAlgorithm(
         pois=pois,
         time_matrix=matrix,

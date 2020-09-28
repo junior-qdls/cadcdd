@@ -35,8 +35,6 @@ def get_tours(suggest):
     # the number of clusters is the total_days
     grouped_places = group_places_by_distance(suggest.total_days, places)
 
-    print(f"grouped_places => {json.dumps(grouped_places)}")
-
     # get details (addresses, schedules, images, etc)
     # from each place, after kmeans processing
     places_with_details = list(
