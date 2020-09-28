@@ -12,8 +12,6 @@ def apply_ga(
     travel_date,
     travel_schedule={"start": "0900", "end": "1830"},
     lunch_time={"start": "1300", "end": "1400"},
-    total_generations=800,
-    population_size=64,
     crossover_probability=0.33,
     mutation_probability=0.05,
 ):
@@ -36,12 +34,6 @@ def apply_ga(
             matrix[j][i] = routes[index]
             index += 1
 
-    print("pois")
-    print(pois)
-    print("---")
-    print("matrix")
-    print(matrix)
-    print("---")
     print("travel_date")
     print(travel_date)
     print("--")
@@ -52,10 +44,10 @@ def apply_ga(
     print(lunch_time)
     print("--")
     print("total_generations")
-    print(total_generations)
+    print(len(pois) * 100)
     print("--")
     print("population_size")
-    print(population_size)
+    print(pow(len(pois), 2))
     print("--")
     print("mutation_probability")
     print(mutation_probability)
@@ -66,11 +58,11 @@ def apply_ga(
     ga = GeneticAlgorithm(
         pois=pois,
         time_matrix=matrix,
-        travel_date=__format_date(travel_date),
+        travel_date=travel_date,
         travel_schedule=travel_schedule,
         lunch_time=lunch_time,
-        total_generations=total_generations,
-        population_size=population_size,
+        total_generations=len(pois) * 100,
+        population_size=pow(len(pois), 2),
         mutation_probability=mutation_probability,
         crossover_probability=crossover_probability,
     )
@@ -237,7 +229,6 @@ class GeneticAlgorithm(object):
             positions = self.__get_random_positions(2, 0, len(parents))
             parent1 = parents[positions[0]]
             parent2 = parents[positions[1]]
-
             for route in self.__crossover_parents(
                 parent1["route"], parent2["route"]
             ):
@@ -344,15 +335,16 @@ class GeneticAlgorithm(object):
         total = math.floor(len(self.populations) * self.crossover_probability)
         total = total if total % 2 == 0 else total + 1
         others = math.floor(total / 8)
-        print(f"total={total} |others={others}")
         best = total - others
         cut_point = len(self.populations) - best
         random_elements = []
         positions = self.__get_random_positions(others, 0, cut_point)
         random_elements = [self.populations[i] for i in positions]
-        return [*random_elements, *self.populations[cut_point:]]
+        result = [*random_elements, *self.populations[cut_point:]]
+        return result
 
     def __init_population(self, size):
+        self.populations = []
         total = len(self.pois) - 1
 
         for i in range(0, size):
@@ -370,7 +362,6 @@ class GeneticAlgorithm(object):
 
     def __create_chromosome(self, route):
         chromosome = {"route": route, "lunch_time": None}
-
         return {"fitness": self.__get_fitness(chromosome), **chromosome}
 
     def __get_fitness(self, individual):
